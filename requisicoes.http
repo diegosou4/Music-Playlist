@@ -1,4 +1,17 @@
 GET http://localhost:3000/
 
 ###
-GET http://localhost:3000/app/hello
+GET http://localhost:3000/app/users
+
+###
+GET http://localhost:3000/app/users/cmd4pfokx0000400wxdfwqfxw
+
+###
+
+POST http://localhost:3000/app/register/
+Content-Type: application/json
+
+{
+  "name": "John",
+  "lastName": "Souza"
+}

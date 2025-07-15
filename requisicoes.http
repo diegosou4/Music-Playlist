@@ -15,3 +15,7 @@ Content-Type: application/json
   "name": "John",
   "lastName": "Souza"
 }
+
+
+###
+GET http://localhost:3000/user-auth/users

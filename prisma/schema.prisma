@@ -59,8 +59,7 @@ model User {
 model UserAuth {
   id       String   @id @default(cuid())
   userId    String   @unique
-  provider  String
-  providerAccountId String
+  username  String   @unique
   password String
   email    String   @unique
   createdAt DateTime @default(now())

@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output = "../generated/prisma"
 }
 
 datasource db {
@@ -35,8 +36,8 @@ model Track {
 model Playlist {
   id        String   @id @default(cuid())
   name      String
-  url      String
-  image     String
+  url      String?
+  image     String?
   description String?
   isPublic  Boolean  @default(false)
   isActive  Boolean  @default(true)

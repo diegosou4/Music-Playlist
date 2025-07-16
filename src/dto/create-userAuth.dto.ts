@@ -12,4 +12,7 @@ export class CreateUserAuthDto {
     @IsString()
     username!: string;
 
+    @IsString()
+    userId!: string; 
+
 }

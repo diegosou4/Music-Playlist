@@ -12,10 +12,23 @@ POST http://localhost:3000/app/register/
 Content-Type: application/json
 
 {
-  "name": "John",
+  "name": "Diego",
   "lastName": "Souza"
 }
 
 
 ###
 GET http://localhost:3000/user-auth/users
+
+
+
+###
+POST http://localhost:3000/user-auth/create-user
+Content-Type: application/json
+
+{
+  "userId": "cmd4yeqlq00003u0w5oq1kzrb",
+  "username": "diego",
+  "password": "123456",
+  "email": "diegoaguia31@gmail.com"
+}

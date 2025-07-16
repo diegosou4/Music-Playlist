@@ -3,6 +3,7 @@ import { PrismaService } from './../database/primas.service';
 import { UserAuth } from 'generated/prisma';
 import { CreateUserAuthDto } from 'src/dto/create-userAuth.dto';
 
+
 @Controller('user-auth')
 export class UserAuthController {
   constructor(private prisma: PrismaService) {}
@@ -22,15 +23,16 @@ export class UserAuthController {
       throw new Error('User model is not defined on PrismaService');
     }
 
-    const user = await this.prisma.userAuth.create({
-      data: {
-        username: userAuthData.username,
-        password: userAuthData.password,
-        email: userAuthData.email,
-      },
-    });
+    const userAuth = await this.prisma.userAuth.create({
+        data: {
+          userId: userAuthData.userId,
+          username: userAuthData.username,
+          password: userAuthData.password, 
+          email: userAuthData.email
+        },
+      });
 
-    return user;
+    return userAuth;
   }
 }
 

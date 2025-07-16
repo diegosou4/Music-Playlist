@@ -39,9 +39,3 @@ async registerUser(@Body() userData: CreateUserDto): Promise<User> {
 
 
 }
-
-
-
-
-
-

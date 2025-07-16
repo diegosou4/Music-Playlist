@@ -1,4 +1,4 @@
-import { Controller, Get ,Post, Body} from "@nestjs/common";
+import { Controller, Get ,Post, Body,Param} from "@nestjs/common";
 import { PrismaService } from './../database/primas.service';
 import { Playlist } from 'generated/prisma';
 import { PlaylistDto } from 'src/dto/playlist.dto';
@@ -18,6 +18,20 @@ export class PlaylistController
         const playlists = await this.prisma.playlist.findMany();
         return playlists;
     }
+
+
+    @Get(':id')
+    async getPlaylistById(@Param('id') id: string): Promise<Playlist> {
+        const playlist = await this.prisma.playlist.findUnique({
+            where: { id: id},
+        });
+        if (!playlist) {
+            throw new Error(`Playlist with id ${id} not found`);
+        }
+        return playlist;
+    }
+
+
     @Post('create-playlist')
     async createPlaylist(@Body() playlistData: PlaylistDto): Promise<Playlist> {
         const playlist = await this.prisma.playlist.create({
@@ -31,6 +45,8 @@ export class PlaylistController
         })
         return playlist;
     }
+
+    
 
 
 }

@@ -14,6 +14,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 model Track {
   id        String   @id @default(cuid())
   name      String
@@ -24,29 +26,60 @@ model Track {
   isActive  Boolean  @default(true)
   popularity Int      @default(0)
   artist    String
-  album     String
-  genre     String
+  albumId   String
+  album     Album @relation(fields: [albumId], references: [id])
+  genreId   String
+  genre     Genre @relation(fields: [genreId], references: [id])
   lyrics    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  playlistId String
-  playlist Playlist @relation(fields: [playlistId], references: [id])
+  playlists PlaylistTrack[]
+  
+}
+
+
+
+
+model Album{
+  id      String   @id @default(cuid())
+  name    String
+  url     String?
+  image   String?
+  artist  String
+  genreId String
+  genre   Genre @relation(fields: [genreId], references: [id])
+  tracks  Track[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isPublic Boolean  @default(true)
+  isActive Boolean  @default(true)
+  popularity Int      @default(0)
 }
 
 model Playlist {
-  id        String   @id @default(cuid())
-  name      String
-  url      String?
-  image     String?
+  id          String         @id @default(cuid())
+  name        String
+  url         String?
+  image       String?
   description String?
-  isPublic  Boolean  @default(false)
-  isActive  Boolean  @default(true)
-  tracks    Track[]
-  popularity Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  isPublic    Boolean        @default(false)
+  isActive    Boolean        @default(true)
+  popularity  Int            @default(0)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  userId      String
+  user        User           @relation(fields: [userId], references: [id])
+  tracks      PlaylistTrack[]
+}
+
+
+model PlaylistTrack {
+  track  Track  @relation(fields: [trackId], references: [id])
+  trackId String 
+  playlist Playlist @relation(fields: [playlistId], references: [id])
+  playlistId String
+
+  @@id([trackId, playlistId])
 }
 
 model User {
@@ -68,3 +101,12 @@ model UserAuth {
   user      User     @relation(fields: [userId], references: [id])
 }
 
+model Genre{
+
+  id       String   @id @default(cuid())
+  name      String
+  tracks    Track[]
+  albums    Album[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

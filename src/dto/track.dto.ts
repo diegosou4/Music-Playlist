@@ -8,7 +8,11 @@ export class TrackDto {
     title: string;
 
     @IsNotEmpty()
-    artist: string;
+    name: string;
+
+
+    @IsNotEmpty()
+    artistid: string;
 
     albumId?: string;
 
@@ -21,6 +25,9 @@ export class TrackDto {
     lyrics?: string;
 
     isPublic: boolean;
+
+    @IsNotEmpty()
+    genreId: string;
 
 
 }

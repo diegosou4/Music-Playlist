@@ -1,24 +1,23 @@
-import { Controller, Post } from '@nestjs/common';
-import { PrismaService } from './../database/primas.service';
+import { Controller, Post , Body} from '@nestjs/common';
 import { Get } from '@nestjs/common';
-import { Album } from 'generated/prisma'; // Adjust the import path as necessary
+import { Album } from 'generated/prisma'; 
+import { CreateAlbumDto } from '../dto/create-album.dto';
+import { AlbumService } from './album.service';
 
 @Controller('album')
 export class AlbumController {
-    constructor(private readonly prismaService: PrismaService) {}
+    constructor(private  AlbumService: AlbumService) {}
 
 
     @Get('all')
     async getAllAlbums() : Promise<Album[]> {
-        if(!this.prismaService) {
-            throw new Error('PrismaService is not initialized');
-        }
-        const albums = await this.prismaService.album.findMany();
-        return albums;
+        return this.AlbumService.getAllAlbums();
     }
 
     @Post('create-album')
-    async createAlbum(@Body() albumData: { name: string; artistId: string; image?: string }): Promise<Album> {
+    async createAlbum(@Body() albumData: CreateAlbumDto): Promise<Album> {
+        return this.AlbumService.createAlbum(albumData);
+    }
 
 
 

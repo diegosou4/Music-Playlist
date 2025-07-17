@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from './../database/primas.service';
 import { PlaylistController } from './playlist.controller';
+import { PrismaModule } from 'src/database/prisma.module';
+import { PlaylistService } from './playlist.service';
 
 @Module({
-    imports: [],
+    imports: [PrismaModule],
     controllers: [PlaylistController],
-    providers: [PrismaService],
+    providers: [PlaylistService],
 
 
 })

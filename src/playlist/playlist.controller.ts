@@ -1,50 +1,29 @@
-import { Controller, Get ,Post, Body,Param} from "@nestjs/common";
-import { PrismaService } from './../database/primas.service';
+import { Controller, Get,Param} from "@nestjs/common";
 import { Playlist } from 'generated/prisma';
-import { PlaylistDto } from 'src/dto/playlist.dto';
-
+import { PlaylistService } from "./playlist.service";
 
 @Controller('playlist')
 export class PlaylistController
 {
-    constructor(private prisma: PrismaService) {}
+    constructor(private PlaylistService: PlaylistService) {}
 
 
     @Get('all')
     async getAllPlaylists():  Promise<Playlist[]> {
-        if (!this.prisma.playlist) {
-            throw new Error('Playlist model is not defined on PrismaService');
-        }
-        const playlists = await this.prisma.playlist.findMany();
-        return playlists;
+        return await this.PlaylistService.getAllPlaylists();
     }
 
 
     @Get(':id')
     async getPlaylistById(@Param('id') id: string): Promise<Playlist> {
-        const playlist = await this.prisma.playlist.findUnique({
-            where: { id: id},
-        });
-        if (!playlist) {
-            throw new Error(`Playlist with id ${id} not found`);
-        }
-        return playlist;
+        return await this.PlaylistService.getPlaylistById(id);
     }
 
 
-    @Post('create-playlist')
-    async createPlaylist(@Body() playlistData: PlaylistDto): Promise<Playlist> {
-        const playlist = await this.prisma.playlist.create({
-            data: {
-                name: playlistData.name,
-                description: playlistData.description,
-                image: playlistData.image,
-                userId: playlistData.userId,
-                isPublic: playlistData.isPublic ?? false
-            },
-        })
-        return playlist;
-    }
+    // @Post('create-playlist')
+    // async createPlaylist(@Body() playlistData: PlaylistDto): Promise<Playlist> {
+    //    return await this.PlaylistService.createPlaylist(playlistData);
+    // }
 
     
 

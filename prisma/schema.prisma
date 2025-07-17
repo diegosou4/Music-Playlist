@@ -20,12 +20,13 @@ model Track {
   id        String   @id @default(cuid())
   name      String
   url       String
-  image     String
+  image     String?
   duration  Int
   isPublic  Boolean  @default(true)
-  isActive  Boolean  @default(true)
+  isActive  Boolean?  @default(true)
   popularity Int      @default(0)
-  artist    String
+  artistId  String
+  artist    Artist? @relation(fields: [artistId], references: [id])
   albumId   String
   album     Album @relation(fields: [albumId], references: [id])
   genreId   String
@@ -37,7 +38,19 @@ model Track {
   
 }
 
-
+model Artist {
+  id        String   @id @default(cuid())
+  name      String
+  url       String?
+  image     String?
+  biography String?
+  isPublic  Boolean  @default(true)
+  isActive  Boolean  @default(true)
+  popularity Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tracks    Track[]
+}
 
 
 model Album{

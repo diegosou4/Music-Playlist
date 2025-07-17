@@ -12,9 +12,10 @@ export class TrackDto {
 
 
     @IsNotEmpty()
-    artistid: string;
+    artistId: string;
 
-    albumId?: string;
+    @IsNotEmpty()
+    albumId: string;
 
     albumName?: string;
 

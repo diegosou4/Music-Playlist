@@ -44,6 +44,8 @@ model Artist {
   url       String?
   image     String?
   biography String?
+  genreId   String
+  genre     Genre @relation(fields: [genreId], references: [id])
   isPublic  Boolean  @default(true)
   isActive  Boolean  @default(true)
   popularity Int      @default(0)
@@ -120,6 +122,7 @@ model Genre{
   name      String
   tracks    Track[]
   albums    Album[]
+  artists   Artist[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

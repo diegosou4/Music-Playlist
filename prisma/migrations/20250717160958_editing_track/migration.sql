@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Track" ALTER COLUMN "image" DROP NOT NULL,
+ALTER COLUMN "isActive" DROP NOT NULL;

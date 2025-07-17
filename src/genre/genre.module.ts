@@ -8,5 +8,6 @@ import { GenreService } from './genre.service';
   imports: [PrismaModule],
   controllers: [GenreController],
   providers: [GenreService],
+  exports: [GenreService]
 })
 export class GenreModule {}

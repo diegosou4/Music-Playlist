@@ -32,3 +32,25 @@ Content-Type: application/json
   "password": "123456",
   "email": "diegoaguia31@gmail.com"
 }
+
+
+###
+POST http://localhost:3000/track/create-track
+Content-Type: application/json
+
+{
+  "name": "Track Name",
+  "duration": 300,
+  "artistId": "cmd4pfokx0000400wxdfwqfxw",
+  "albumId": "cmd4pfokx0000400wxdfwqfxw",
+  "genreId": "cmd4pfokx0000400wxdfwqfxw"
+}
+
+
+### 
+POST http://localhost:3000/genre/create-genre
+Content-Type: application/json
+
+{
+  "name": "Hip-Hop"
+}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-
+import { CreatePlaylistDto } from '../dto/create-playlist.dto';
 
 @Injectable()
 export class PlaylistService {
@@ -20,4 +20,17 @@ export class PlaylistService {
         }
         return playlist;
     }
+    async createPlaylist(data: CreatePlaylistDto) {
+        const playlist = await this.prisma.playlist.create({
+            data: {
+                name : data.name,
+                description : data.description,
+                userId : data.userId,
+            },
+        });
+        return playlist;
+    }
+
+
+    
 }

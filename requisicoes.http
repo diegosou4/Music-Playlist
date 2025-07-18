@@ -47,10 +47,37 @@ Content-Type: application/json
 }
 
 
+###
+GET http://localhost:3000/genre/all-genres
+
+
 ### 
 POST http://localhost:3000/genre/create-genre
 Content-Type: application/json
 
 {
   "name": "Hip-Hop"
+}
+
+
+###
+POST http://localhost:3000/artist/create-artist
+Content-Type: application/json
+
+{
+  "name": "Pumapjl",
+  "biography": "Pumapjl é um rapper carioca nascido em 1999, conhecido por suas rimas cruas e estilo boom bap. Iniciou a carreira em 2017 e ganhou destaque com o EP 'Naturalidade'. Integra o duo Febre90’s e o coletivo Covil da Bruxa.",
+  "genreId": "cmd7lk7c300001d0w4k6tzl5i"
+}
+
+
+###
+POST http://localhost:3000/album/create-album
+Content-Type: application/json
+
+{
+  "name": "Autodominio",
+  "artistId": "cmd7muii800015c0vsy9d1d71",
+  "genreId": "cmd7lk7c300001d0w4k6tzl5i"
+
 }

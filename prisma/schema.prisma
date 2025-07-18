@@ -52,6 +52,7 @@ model Artist {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   tracks    Track[]
+  albums    Album[]
 }
 
 
@@ -60,7 +61,8 @@ model Album{
   name    String
   url     String?
   image   String?
-  artist  String
+  artistId  String
+  artist  Artist @relation(fields: [artistId], references: [id])
   genreId String
   genre   Genre @relation(fields: [genreId], references: [id])
   tracks  Track[]

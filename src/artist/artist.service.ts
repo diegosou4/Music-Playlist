@@ -1,10 +1,14 @@
 import { Injectable} from "@nestjs/common";
 import { PrismaService } from "../database/prisma.service";
-
+import { CreateArtistDto } from "src/dto/create-artist.dto";
+import { GenreService } from "src/genre/genre.service";
 
 @Injectable()
 export class ArtistService { 
-    constructor(private readonly prismaService: PrismaService) {}
+    constructor(
+        private readonly prismaService: PrismaService,
+        private readonly GenreService: GenreService
+    ) {}
 
     async getAllArtists() {
         if (!this.prismaService) {
@@ -13,13 +17,26 @@ export class ArtistService {
         return this.prismaService.artist.findMany();
     }
 
-    async createArtist(artistData: { name: string }) {
+    async createArtist(artistData: CreateArtistDto) {
         if (!this.prismaService) {
             throw new Error('PrismaService is not initialized');
         }
+
+        if(!artistData.genreId) {
+          throw new Error('Genre ID is required');
+        }
+
+        try{
+            this.GenreService.getGenreById(artistData.genreId);
+        }catch (error) {
+                throw new Error(`Genre with id ${artistData.genreId} not found`);
+        }
+
         return this.prismaService.artist.create({
             data: {
                 name: artistData.name,
+                biography: artistData.biography,
+                genreId: artistData.genreId,
             },
         });
     }

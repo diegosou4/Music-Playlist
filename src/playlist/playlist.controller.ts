@@ -1,6 +1,8 @@
-import { Controller, Get,Param} from "@nestjs/common";
+import { Controller, Get,Param, Post, Body} from "@nestjs/common";
 import { Playlist } from 'generated/prisma';
 import { PlaylistService } from "./playlist.service";
+import { CreatePlaylistDto } from "../dto/create-playlist.dto";
+
 
 @Controller('playlist')
 export class PlaylistController
@@ -20,10 +22,10 @@ export class PlaylistController
     }
 
 
-    // @Post('create-playlist')
-    // async createPlaylist(@Body() playlistData: PlaylistDto): Promise<Playlist> {
-    //    return await this.PlaylistService.createPlaylist(playlistData);
-    // }
+    @Post('create-playlist')
+    async createPlaylist(@Body() playlistData: CreatePlaylistDto): Promise<Playlist> {
+       return await this.PlaylistService.createPlaylist(playlistData);
+    }
 
     
 

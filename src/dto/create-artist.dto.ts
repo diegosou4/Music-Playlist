@@ -7,4 +7,7 @@ export class CreateArtistDto {
     name: string;
 
     biography?: string;
+    
+    @IsString()
+    genreId?: string;
 }

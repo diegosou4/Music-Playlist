@@ -2,6 +2,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../database/prisma.service";
 import { Genre } from "generated/prisma";
+import { CreateGenreDto } from "src/dto/create-genre.dto";
 
 @Injectable()
 export class GenreService { 
@@ -26,7 +27,7 @@ export class GenreService {
         return genre;
     }
 
-    async createGenre(genreData: { name: string }): Promise<Genre> {
+    async createGenre(genreData: CreateGenreDto): Promise<Genre> {
         if (!this.prismaService) {
             throw new Error('PrismaService is not initialized');
         }

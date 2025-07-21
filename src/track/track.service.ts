@@ -1,62 +1,56 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { PrismaService } from "../database/prisma.service";
 import { Track } from "generated/prisma";
 import { GenreService } from "src/genre/genre.service";
-import { TrackDto } from "../dto/track.dto"; // Assuming you have a DTO for track data
+import { TrackDto } from "../dto/track.dto"; 
 import { ArtistService} from "src/artist/artist.service";
+import { MediaService } from "src/media/media.service"; 
+import { parseBuffer } from "music-metadata"; 
+import { TrackdbService } from "./trackdb.service";
+import { IAudioMetadata } from "music-metadata/lib/type";
 
 @Injectable()
 export class TrackService {
     constructor(
-        private prisma: PrismaService,
+        private trackdbService: TrackdbService,
         private genreService: GenreService,
-        private artistService: ArtistService
+        private artistService: ArtistService,
+        private mediaService: MediaService
     ) {}
 
+    async createTrack(trackData: TrackDto, file: Express.Multer.File): Promise<Track> {
+        await this.genreService.getGenreById(trackData.genreId).catch(() => {
+                throw new BadRequestException(`Genre with id ${trackData.genreId} not found`);});
+       await this.artistService.getArtistById(trackData.artistId)
+            .catch(() => {throw new BadRequestException(`Artist with id ${trackData.artistId} not found`);});
+      
+    
+        const metadata : IAudioMetadata = await parseBuffer(file.buffer, file.mimetype);
+        const track = await this.trackdbService.createTrack(trackData, metadata, file.mimetype);
+        await this.uploadTrackCloud(file, track.id)
 
-    async createTrack(trackData: TrackDto): Promise<Track> {
-        if (!this.prisma.track) {
-            throw new Error('Track model is not defined on PrismaService');
-        }
-        await this.genreService.getGenreById(trackData.genreId)
-            .catch(() => {
-                throw new BadRequestException(`Genre with id ${trackData.genreId} not found`);
-            });
-        await this.artistService.getArtistById(trackData.artistId)
-            .catch(() => {
-                throw new BadRequestException(`Artist with id ${trackData.artistId} not found`);
-            });
+        return track;
+    }
 
-
-        const newTrack = await this.prisma.track.create({
-            data: {
-                name : trackData.name,
-                duration: trackData.duration,
-                url : "Preciso gerar",
-                genreId: trackData.genreId,
-                artistId: trackData.artistId, 
-                albumId: trackData.albumId,
-            },
-        });
-        return newTrack;
+    async uploadTrackCloud(file: Express.Multer.File, idtrack : string): Promise<string> {
+        const filePath = await this.mediaService.uploadMedia(file, idtrack);
+    
+        return filePath;
     }
 
    async getAllTracks(): Promise<Track[]> {
-        if (!this.prisma.track) {
-            throw new Error('Track model is not defined on PrismaService');
+        const tracks = await this.trackdbService.getAllTracks();
+        if (!tracks || tracks.length === 0) {
+            throw new BadRequestException('No tracks found');
         }
-        const tracks = await this.prisma.track.findMany();
         return tracks;
     }
 
     async getTrackById( id: string): Promise<Track> {
-        const track = await this.prisma.track.findUnique({
-            where: { id: id },
-        });
+        const track = await this.trackdbService.getTrackById(id);
         if (!track) {
-            throw new Error(`Track with id ${id} not found`);
+            throw new BadRequestException(`Track with id ${id} not found`);
         }
         return track;
     }
-
+    
 }

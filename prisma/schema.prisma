@@ -21,6 +21,7 @@ model Track {
   name      String
   url       String
   image     String?
+  mimeType  String?
   duration  Int
   isPublic  Boolean  @default(true)
   isActive  Boolean?  @default(true)

@@ -5,9 +5,6 @@ import { IsNotEmpty, IsString } from "class-validator";
 export class TrackDto {
 
     @IsNotEmpty()
-    title: string;
-
-    @IsNotEmpty()
     name: string;
 
 

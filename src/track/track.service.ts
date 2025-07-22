@@ -52,5 +52,16 @@ export class TrackService {
         }
         return track;
     }
+
+    async deleteTrack(id: string): Promise<void> {
+        const track = await this.trackdbService.getTrackById(id);
+        try{
+            await this.trackdbService.deleteTrack(id);
+        } catch (error) {
+            throw new BadRequestException(`Track with id ${id} not found`);
+        }
+        await this.mediaService.deleteMedia(track.url);
+    }
+  
     
 }

@@ -40,4 +40,16 @@ export class MediaService {
     res.setHeader("Cache-Control", "max-age=60d");
     res.end(storageFile.buffer);
   }
+
+  async deleteMedia(pathUrl: string): Promise<void> {
+    try {
+      await this.storageService.delete(pathUrl);
+    } catch (e) {
+      if (e.message.toString().includes("No such object")) {
+        throw new NotFoundException("image not found");
+      } else {
+        throw new ServiceUnavailableException("internal error");
+      }
+    }
+  }
 }

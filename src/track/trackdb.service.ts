@@ -3,6 +3,7 @@ import { Track } from "generated/prisma/wasm";
 import { PrismaService } from "src/database/prisma.service";
 import { TrackDto } from "src/dto/track.dto";
 import { IAudioMetadata } from "music-metadata/lib/type";
+import { trackinfoDTO } from "src/dto/trackInfo.dto";
 
 @Injectable()
 export class TrackdbService {
@@ -35,7 +36,11 @@ export class TrackdbService {
     }
 
     async getAllTracks(): Promise<Track[]> {
-        const tracks = await this.prisma.track.findMany();
+        const tracks = await this.prisma.track.findMany(
+            {
+                ...trackinfoDTO
+            }
+        );
         return tracks;
     }
 
@@ -53,6 +58,16 @@ export class TrackdbService {
             data: { url: url },
         });
         return updatedTrack;
+    }
+
+    async deleteTrack(id: string): Promise<Track> {
+        const deletedTrack = await this.prisma.track.delete({
+            where: { id: id },
+        });
+        if (!deletedTrack) {
+            throw new Error(`Track with id ${id} not found`);
+        }
+        return deletedTrack;
     }
 }
 

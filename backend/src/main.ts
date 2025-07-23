@@ -6,7 +6,7 @@ import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('Music Api')
     .setDescription('This is a music API built with NestJS')

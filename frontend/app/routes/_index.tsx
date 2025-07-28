@@ -30,10 +30,10 @@ export default function Home() {
 
 <div className="relative z-10 flex items-center justify-center w-screen h-screen bg-slate-900/30 backdrop-blur-[1px]">
   <div className="flex flex-col w-full h-full">
-    <div className="flex flex-row w-full h-full items-center justify-end gap-3 ">
-      <div className="flex flex-col  p-5 w-2/5 h-1/2 bg-blue-300/70 rounded-2xl gap-5 ">
+    <div className="flex flex-row w-full h-full items-center justify-end gap- ">
+      <div className="flex flex-col  p-5 w-2/5 h-1/2 bg-blue-300/70 rounded-2xl  ">
         <div className="flex flex-col ">
-          <h1 className="text-2xl text-shadow-xs text-white text-center">Music Playlist</h1>
+          <h1 className="text-2xl text-shadow-xs text-white text-center mb-10">Music Playlist</h1>
         </div>
         <div className="flex flex-col justify-center items-center ">
           <div className="w-48 h-48">
@@ -62,7 +62,19 @@ export default function Home() {
 						</div>
 					</div>
 				</div>
-
+      	<div className="w-2/4">
+				<div className="flex justify-between text-sm text-grey-darker">
+					<p>0:40</p>
+					<p>4:20</p>
+				</div>
+				<div className="mt-1">
+					<div className="h-1 bg-grey-dark rounded-full">
+						<div className="w-1/5 h-1 bg-red-light rounded-full relative">
+							<span className="w-4 h-4 bg-red absolute pin-r pin-b -mb-1 rounded-full shadow"></span>
+						</div>
+					</div>
+				</div>
+			</div>
 
        </div>
       </div>

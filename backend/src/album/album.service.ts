@@ -4,13 +4,16 @@ import { CreateAlbumDto } from '../dto/create-album.dto';
 import { GenreService } from 'src/genre/genre.service';
 import { ArtistService } from 'src/artist/artist.service';
 import { NotFoundException } from '@nestjs/common';
+import { MediaService } from 'src/media/media.service';
+import { Response } from "express";
 
 
 @Injectable()  
 export class AlbumService {
     constructor(private readonly prismaService: PrismaService, 
                 private readonly genreService: GenreService, 
-                private readonly artistService: ArtistService
+                private readonly artistService: ArtistService,
+                private readonly mediaService: MediaService
     ) {}
     
 
@@ -45,8 +48,31 @@ export class AlbumService {
                 genreId: albumData.genreId,
             },
         });
+
+      
     }
-
-
-
+      async addImageToAlbum(albumId: string, image: Express.Multer.File) {
+            if (!this.prismaService) {  
+                throw new Error('PrismaService is not initialized');    
+            }
+        const albumPath = await this.mediaService.addImageToMedia(albumId, image);
+        await this.prismaService.album.update({
+            where: { id: albumId },
+            data: { image: "images/" + albumId },
+        });
+        return albumPath;
+    }
+    async getAlbumImage(albumId: string, res: Response) {
+        if (!this.prismaService) {
+            throw new Error('PrismaService is not initialized');
+        }
+        const album = await this.prismaService.album.findUnique({
+            where: { id: albumId },
+            select: { image: true },
+        });
+        if (!album || !album.image) {
+            throw new NotFoundException(`Image for album with ID ${albumId} not found`);
+        }
+        return this.mediaService.downloadImage(album.image, res);
+    }
 }

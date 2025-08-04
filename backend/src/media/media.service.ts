@@ -52,4 +52,34 @@ export class MediaService {
       }
     }
   }
+
+  async addImageToMedia(mediaId: string, image: Express.Multer.File) {
+    if (!this.storageService) {
+      throw new Error("StorageService is not initialized");
+    }
+    const imagePath = await this.storageService.save(
+      "media/" + mediaId,
+      image.buffer,
+      [{ mediaId: mediaId }]
+    );
+    return imagePath;
+
+  }
+
+  async downloadImage(path: string, res: Response) {
+    let storageFile: StorageFile;
+    try {
+      storageFile = await this.storageService.get(`${path}`);
+    } catch (e) {
+      if (e.message.toString().includes("No such object")) {
+        throw new NotFoundException("image not found");
+      } else {
+        throw new ServiceUnavailableException("internal error");
+      }
+    }
+    res.setHeader("Content-Type", "image/jpeg");
+    res.setHeader("Cache-Control", "max-age=60d");
+    res.end(storageFile.buffer);
+  }
+
 }

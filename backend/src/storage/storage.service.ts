@@ -57,6 +57,8 @@ export class StorageService {
     return storageFile;
   }
 
+  
+
   async getWithMetaData(path: string): Promise<StorageFile> {
     const [metadata] = await this.storage
       .bucket(this.bucket)
@@ -78,4 +80,5 @@ export class StorageService {
     storageFile.contentType = storageFile.metadata.get("contentType") ?? "";
     return storageFile;
   }
+  
 }

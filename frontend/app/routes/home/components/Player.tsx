@@ -1,23 +1,71 @@
 
-import AudioPlayer from './audioPlayer';
+
+
+import React from 'react';
+import { ITrack } from '../../../../types/Tracks';
 
 interface PlayerProps {
-    currentTrack: string;
-    albumCover: string;
-
+    currentTrack: ITrack;
 }
 
-const Player = ({ currentTrack, albumCover }: PlayerProps) =>{
+const Player = ({ currentTrack }: PlayerProps) =>{
+
+    const [currentTime, setCurrentTime] = React.useState(0);
+    const [duration, setDuration] = React.useState(currentTrack.duration);
+    const [isPlaying, setIsPlaying] = React.useState(false);
+    const audioRef = React.useRef<HTMLAudioElement | null>(null);
+
+
+    const handleSeek = (e : React.ChangeEvent<HTMLInputElement>) => {
+
+        if (audioRef.current) {
+            audioRef.current.currentTime = Number(e.target.value);
+        }if (audioRef.current) {
+            setCurrentTime(Number(e.target.value));
+        }
+    }
+
+    const handleTimeUpdate = () => {
+        if (audioRef.current) {
+            setCurrentTime(audioRef.current.currentTime);
+            setDuration(audioRef.current.duration);
+        }
+    }
+
+    const handlePlayPause = () => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.pause();
+            } else {
+                audioRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
+
+    React.useEffect(() => {
+        audioRef.current?.addEventListener('timeupdate', handleTimeUpdate);
+        return () => {
+            audioRef.current?.removeEventListener('timeupdate', handleTimeUpdate);
+        };
+    }, []);
 
     return(
         <>
-        <AudioPlayer url={currentTrack} />
+         <audio 
+              slot="media"
+              ref={audioRef}
+              src={`http://localhost:3000/${currentTrack.url}`}
+              playsInline
+              crossOrigin="anonymous"
+              style={{ display: 'none' }}>
+            </audio>
         <div className="flex flex-col justify-center items-center ">
           <div className="w-48 h-48">
-             <img src={albumCover} alt="Album Cover" className="w-full h-full cursor-pointer rounded-xl" />
+             <img src={`http://localhost:3000/media/${currentTrack.album.image}`} alt="Album Cover" className="w-full h-full cursor-pointer rounded-xl" />
           </div>
         </div>
-        <div className="text-white text-lg text-center font-bold mt-4">Cacife Clandestino - Tira Do Papel</div>
+        <div className="text-white text-lg text-center font-bold mt-4">{currentTrack.name}</div>
             <div className="flex flex-col items-center justify-center ">
                 <div className="w-2/4 ">
                             <div className="flex justify-between">
@@ -30,16 +78,7 @@ const Player = ({ currentTrack, albumCover }: PlayerProps) =>{
                                 <div className="text-grey-darker cursor-pointer">
                                     <svg className="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M4 5h3v10H4V5zm12 0v10l-9-5 9-5z"/></svg>
                                 </div>
-                                <div className="text-white p-4 rounded-full bg-red-light shadow-md cursor-pointer" id="play-pause" onClick={() => {
-                      const audio = document.querySelector('audio');
-                      if (audio) {
-                        if (audio.paused) {
-                          audio.play();
-                        } else {
-                          audio.pause();
-                        }
-                      }
-                    }}>
+                                <div className="text-white p-4 rounded-full bg-red-light shadow-md cursor-pointer" id="play-pause" onClick={() => {handlePlayPause();}}>
                                     <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z"/></svg>
                                 </div>
                                 <div className="text-grey-darker cursor-pointer">
@@ -52,8 +91,8 @@ const Player = ({ currentTrack, albumCover }: PlayerProps) =>{
                         </div>
                 <div className="w-2/4">
                         <div className="flex justify-between text-sm text-grey-darker">
-                            <p>0:40</p>
-                            <p>4:20</p>
+                            <input type="range" min="0" max={duration} value={currentTime} onChange={handleSeek}/>
+               
                         </div>
                         <div className="mt-1">
                             <div className="h-1 bg-grey-dark rounded-full">

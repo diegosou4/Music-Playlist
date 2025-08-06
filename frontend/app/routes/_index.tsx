@@ -3,6 +3,7 @@ import { ITrack} from "../../types/Tracks";
 import Player from "./home/components/Player";
 import useFetch from "../../hooks/useFecth";
 import ListRecents from "./home/components/ListRecents";
+import { isArray } from "util";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -45,7 +46,12 @@ export default function Home() {
           <h1 className="text-2xl text-shadow-xs text-white text-center mb-10">Music Playlist</h1>
         </div>
 
-      <Player currentTrack={'http://localhost:3000/media/cme01kp6z000529kps65v8zxd'} albumCover="http://localhost:3000/album/image/cmd7naevk0001zp0vgjo97q7d" />
+      {recentsMusics && Array.isArray(recentsMusics) && recentsMusics.length > 0 && (
+        <Player currentTrack={recentsMusics[0]} />
+      )}
+      {recentsMusics && !Array.isArray(recentsMusics) && (
+        <Player currentTrack={recentsMusics} />
+      )}
       </div>
       {recentsMusics && <ListRecents recentsMusics={recentsMusics} />}
       <div className="flex flex-row items-center justify-center w-1/5 h-96 bg-transparent">

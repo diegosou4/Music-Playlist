@@ -17,6 +17,7 @@ export const trackinfoDTO = {
                         album: {
                             select: {
                                 name: true,
+                                image: true,
                             },
                         },
                     },

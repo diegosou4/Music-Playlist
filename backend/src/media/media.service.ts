@@ -58,7 +58,7 @@ export class MediaService {
       throw new Error("StorageService is not initialized");
     }
     const imagePath = await this.storageService.save(
-      "media/" + mediaId,
+      "images/" + mediaId,
       image.buffer,
       [{ mediaId: mediaId }]
     );
@@ -82,4 +82,19 @@ export class MediaService {
     res.end(storageFile.buffer);
   }
 
+  async getMediaImage(mediaId: string, res: Response) {
+    let storageFile: StorageFile;
+    try {
+      storageFile = await this.storageService.get(`images/${mediaId}`);
+    } catch (e) {
+      if (e.message.toString().includes("No such object")) {
+        throw new NotFoundException("image not found");
+      } else {
+        throw new ServiceUnavailableException("internal error");
+      }
+    }
+    res.setHeader("Content-Type", "image/jpeg");
+    res.setHeader("Cache-Control", "max-age=60d");
+    res.end(storageFile.buffer);
+  }
 }

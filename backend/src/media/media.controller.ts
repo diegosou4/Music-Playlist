@@ -25,4 +25,10 @@ export class MediaController {
   async downloadMedia(@Param("mediaId") mediaId: string, @Res() res: Response) { 
     return await this.mediaService.downloadMedia(mediaId, res);
   }
-}
+
+
+    @Get("images/:mediaId")
+    async getMediaImage(@Param("mediaId") mediaId: string, @Res() res: Response) {
+      return await this.mediaService.getMediaImage(mediaId, res);
+    }
+  }

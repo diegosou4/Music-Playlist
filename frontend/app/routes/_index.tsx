@@ -3,7 +3,8 @@ import { ITrack} from "../../types/Tracks";
 import Player from "./home/components/Player";
 import useFetch from "../../hooks/useFecth";
 import ListRecents from "./home/components/ListRecents";
-import { isArray } from "util";
+// Removed deprecated isArray import
+import React from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -21,8 +22,22 @@ export default function Home() {
     method: 'GET',
   });
 
-  console.log(recentsMusics);
+  const [currentTrack, setCurrentTrack] = React.useState<ITrack | null>(null);
 
+  React.useEffect(() => {
+    if(!recentsMusics || isLoading || isFetching) return;
+    if (Array.isArray(recentsMusics) && recentsMusics.length > 0) {
+      setCurrentTrack(recentsMusics[0]);
+      return;
+    }
+    if (!Array.isArray(recentsMusics)) {
+      setCurrentTrack(recentsMusics);
+      return;
+    }
+  }, [recentsMusics]);
+
+
+  console.log('recentsMusics', currentTrack);
 
   return (
     <>
@@ -45,15 +60,9 @@ export default function Home() {
         <div className="flex flex-col ">
           <h1 className="text-2xl text-shadow-xs text-white text-center mb-10">Music Playlist</h1>
         </div>
-
-      {recentsMusics && Array.isArray(recentsMusics) && recentsMusics.length > 0 && (
-        <Player currentTrack={recentsMusics[0]} />
-      )}
-      {recentsMusics && !Array.isArray(recentsMusics) && (
-        <Player currentTrack={recentsMusics} />
-      )}
+       {currentTrack &&  <Player currentTrack={currentTrack} />}
       </div>
-      {recentsMusics && <ListRecents recentsMusics={recentsMusics} />}
+        {recentsMusics && <ListRecents recentsMusics={recentsMusics} setCurrentTrack={setCurrentTrack} />}
       <div className="flex flex-row items-center justify-center w-1/5 h-96 bg-transparent">
  
       </div>

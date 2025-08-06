@@ -4,9 +4,18 @@ import { ITrack } from "../../../../types/Tracks";
 
 interface ListRecentsProps {
     recentsMusics: ITrack | ITrack[];
+    setCurrentTrack : React.Dispatch<React.SetStateAction<ITrack | null>>;
 }
 
-const ListRecents = ({ recentsMusics } : ListRecentsProps) => {
+const ListRecents = ({ recentsMusics, setCurrentTrack } : ListRecentsProps) => {
+
+
+    const handleChangeTrack = (e : React.MouseEvent<HTMLDivElement>) => {
+        const trackId = e.currentTarget.dataset.id;
+        const track = (Array.isArray(recentsMusics) ? recentsMusics : [recentsMusics]).find((t) => t.id === trackId);
+        setCurrentTrack(track || null);
+    }
+
 
     return(
         <div className="flex flex-row w-2/9 h-1/2 p-5 bg-blue-500 rounded-2xl">
@@ -17,7 +26,7 @@ const ListRecents = ({ recentsMusics } : ListRecentsProps) => {
             <div className="flex flex-col w-8/9 h-10/12 overflow-y-auto bg-gray-600 rounded-xl">
           <div className="flex flex-col w-full h-full p-2 gap-2">
             {(Array.isArray(recentsMusics) ? recentsMusics : [recentsMusics]).map((track: ITrack) => (
-                <div key={track.id} className="flex flex-row items-center justify-between bg-gray-700 p-2 rounded-lg">
+                <div key={track.id} className="flex flex-row items-center justify-between bg-gray-700 p-2 rounded-lg" onClick={handleChangeTrack} data-id={track.id}>
                     <div className="flex items-center gap-2 ">
                         <img src={`http://localhost:3000/media/${track.album.image}`} alt="Album Cover" className="w-13 h-13 rounded-full cursor-pointer" />
                         <span className="text-white text-sm">{track.artist.name} - {track.name}</span>

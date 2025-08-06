@@ -10,20 +10,17 @@ interface PlayerProps {
 
 const Player = ({ currentTrack }: PlayerProps) =>{
 
+    if (!currentTrack) {
+        return null;
+    }
+
     const [currentTime, setCurrentTime] = React.useState(0);
     const [duration, setDuration] = React.useState(currentTrack.duration);
     const [isPlaying, setIsPlaying] = React.useState(false);
     const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
 
-    const handleSeek = (e : React.ChangeEvent<HTMLInputElement>) => {
 
-        if (audioRef.current) {
-            audioRef.current.currentTime = Number(e.target.value);
-        }if (audioRef.current) {
-            setCurrentTime(Number(e.target.value));
-        }
-    }
 
     const handleTimeUpdate = () => {
         if (audioRef.current) {
@@ -90,9 +87,11 @@ const Player = ({ currentTrack }: PlayerProps) =>{
                             </div>
                         </div>
                 <div className="w-2/4">
-                        <div className="flex justify-between text-sm text-grey-darker">
-                            <input type="range" min="0" max={duration} value={currentTime} onChange={handleSeek}/>
-               
+                        <div className="flex justify-between text-sm text-grey-darker mt-4">
+                            <p>{Math.floor(currentTime / 60)}:{Math.floor(currentTime % 60).toString().padStart(2, '0')}</p>
+                            <input type="range" min="0" max={duration} value={currentTime} className='w-full mx-2'/>
+                            <p>{Math.floor(duration / 60)}:{Math.floor(duration % 60).toString().padStart(2, '0')}</p>
+
                         </div>
                         <div className="mt-1">
                             <div className="h-1 bg-grey-dark rounded-full">

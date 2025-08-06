@@ -20,6 +20,7 @@ export class ArtistController {
 
     @Post('create-artist')
     async createArtist(@Body() artistData: CreateArtistDto): Promise<Artist> {
+        console.log('Creating artist with data:', artistData);
         return this.ArtistService.createArtist(artistData);
     }
 }

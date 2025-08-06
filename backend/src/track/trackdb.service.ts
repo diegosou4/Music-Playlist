@@ -69,6 +69,17 @@ export class TrackdbService {
         }
         return deletedTrack;
     }
+
+    async getRecentTracks(): Promise<Track[]> {
+        const tracks = await this.prisma.track.findMany({
+            ...trackinfoDTO,
+            orderBy: {
+                createdAt: 'desc',
+            },
+            take: 10,
+        });
+        return tracks;
+    }
 }
 
       

@@ -23,12 +23,15 @@ export class TrackController {
         return this.TrackService.getAllTracks();
     }
 
+    @Get('recent-tracks')
+    async getRecentTracks(): Promise<Track[]> {
+        return this.TrackService.getRecentTracks();
+    }
+
     @Get(':id')
     async getTrackById(@Param('id') id: string): Promise<Track> {
         return this.TrackService.getTrackById(id);
     }
 
+    
 }
-
-
-

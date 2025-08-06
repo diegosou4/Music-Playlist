@@ -63,5 +63,13 @@ export class TrackService {
         await this.mediaService.deleteMedia(track.url);
     }
   
+    async getRecentTracks(): Promise<Track[]> {
+        const tracks = await this.trackdbService.getRecentTracks();
+        if (!tracks || tracks.length === 0) {
+            throw new BadRequestException('No recent tracks found');
+        }
+        return tracks;
+    }
+
     
 }

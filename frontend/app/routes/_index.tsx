@@ -1,10 +1,8 @@
 import type { Route } from "./+types/home";
-import coldplay from '../../assets/images/album.jpg'
-import derek from '../../assets/images/derek.jpg'
+import { ITrack} from "../../types/Tracks";
 import Player from "./home/components/Player";
-import pecaos from '../../assets/images/pecaos.jpg'
 import useFetch from "../../hooks/useFecth";
-
+import ListRecents from "./home/components/ListRecents";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,7 +14,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
 
-  const { data: recentsMusics, isFetching, isLoading } = useFetch<any>({
+  const { data: recentsMusics, isFetching, isLoading } = useFetch<ITrack[] | ITrack>({
     endpoint: 'http://localhost:3000/track/recent-tracks',
     queryKeys: ['recents'],
     method: 'GET',
@@ -49,47 +47,7 @@ export default function Home() {
 
       <Player currentTrack={'http://localhost:3000/media/cme01kp6z000529kps65v8zxd'} albumCover="http://localhost:3000/album/image/cmd7naevk0001zp0vgjo97q7d" />
       </div>
-      <div className="flex flex-row w-2/9 h-1/2 p-5 bg-blue-500 rounded-2xl">
-        <div className="flex flex-col w-full h-full justify-center items-center gap-3 ">
-
-        <div className="flex flex-col ">
-            <h1 className="text-2xl text-shadow-xs text-white text-center">Recentes Adicionadas</h1>
-        </div>
-        <div className="flex flex-col w-8/9 h-10/12 overflow-y-auto bg-gray-600 rounded-xl">
-          <div className="flex flex-col w-full h-full p-2 gap-2">
-              <div className="flex flex-row items-center justify-between bg-gray-700 p-2 rounded-lg">
-                <div className="flex items-center gap-2 ">
-                  <img src={coldplay} alt="Album Cover" className="w-13 h-13 rounded-full cursor-pointer" />
-                     <span className="text-white text-sm">Coldplay - Yellow </span>
-                </div>
-             <span className="text-gray-400">3:45</span>
-              </div>
-            <div className="flex flex-row items-center justify-between bg-gray-700 p-2 rounded-lg">
-                <div className="flex items-center gap-2 ">
-                  <img src={derek} alt="Album Cover" className="w-13 h-13 rounded-full cursor-pointer" />
-                     <span className="text-white text-sm">Derek feat. Sue Sue - Será que um dia você volta? "Interlúdio"</span>
-                </div>
-             <span className="text-gray-400">3:45</span>
-              </div>
-              <div className="flex flex-row items-center justify-between bg-gray-700 p-2 rounded-lg">
-                <div className="flex items-center gap-2 ">
-                  <img src={'http://localhost:3000/album/image/cmd7naevk0001zp0vgjo97q7d'} alt="Album Cover" className="w-13 h-13 rounded-full cursor-pointer" />
-                     <span className="text-white text-sm">Cacife Clandestino - Tira Do Papel (Prod. Rick Beatz)</span>
-                </div>
-             <span className="text-gray-400">3:45</span>
-              </div>
-              <div className="flex flex-row items-center justify-between bg-gray-700 p-2 rounded-lg cursor-pointer">
-                <div className="flex items-center gap-2 ">
-                  <img src={pecaos} alt="Album Cover" className="w-13 h-13 rounded-full" />
-                     <span className="text-white  text-sm">Pecaos - Parece Morte, Mas é Só a Vida</span>
-                </div>
-             <span className="text-gray-400">3:45</span>
-              </div>
-              
-            </div>
-        </div>
-      </div>
-      </div>
+      {recentsMusics && <ListRecents recentsMusics={recentsMusics} />}
       <div className="flex flex-row items-center justify-center w-1/5 h-96 bg-transparent">
  
       </div>

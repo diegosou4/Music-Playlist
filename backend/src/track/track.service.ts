@@ -18,6 +18,7 @@ export class TrackService {
     ) {}
 
     async createTrack(trackData: TrackDto, file: Express.Multer.File): Promise<Track> {
+        console.log('To batendo no servico');
         await this.genreService.getGenreById(trackData.genreId).catch(() => {
                 throw new BadRequestException(`Genre with id ${trackData.genreId} not found`);});
        await this.artistService.getArtistById(trackData.artistId)

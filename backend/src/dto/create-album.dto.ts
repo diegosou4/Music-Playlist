@@ -1,17 +1,21 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString} from 'class-validator';
 
 export class CreateAlbumDto {
-
+  @ApiProperty()
     @IsString()
     name : string;
 
-    @IsString()
-    artistId: string;
+  @ApiProperty()
+  @IsString()
+  artistId: string;
 
-    @IsString()
-    genreId: string;
+  @ApiProperty()
+  @IsString()
+  genreId: string;
 
-    @IsString()
-    isPlublic?: boolean;
+  @ApiProperty()
+  @IsString()
+  isPublic?: boolean;
 
 }

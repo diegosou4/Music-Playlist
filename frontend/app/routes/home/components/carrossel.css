@@ -1,0 +1,18 @@
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.hover\\:animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  min-width: 100%; 
+}
+
+.hover\\:animate-marquee:hover {
+  animation: marquee 6s linear infinite;
+}

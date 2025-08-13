@@ -40,12 +40,11 @@ export default function Navbar(){
                           <p className="text-white group-hover:text-purple-700">Artists</p>
                         </div>
             </div>
-            <div className="flex-1 mb-40"></div>
-             <div  className="flex flex-col  text-center gap-5 mb-20 *:text-lg w-full *:cursor-pointer ">
+             {/* <div  className="flex flex-col  text-center gap-5 *:text-lg w-full *:cursor-pointer ">
                <div className="flex items-center justify-center gap-5 group">
                 <p className="text-white group-hover:text-purple-700">Account</p>
               </div>
-            </div>
+            </div> */}
         </div>
         </div>
 

@@ -25,7 +25,7 @@ export default function Home() {
   
   return (
     <>
-    <section className="w-screen h-screen" style={{ backgroundColor: '#1F1F22' }}>
+    <section className="w-screen h-screen" style={{ backgroundColor: '#171719' }}>
       <div className="flex flex-row  h-full ">
         <Navbar />
 

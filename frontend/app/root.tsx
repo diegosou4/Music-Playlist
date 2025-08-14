@@ -6,7 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
+import { AuthProvider } from "@descope/react-sdk";
 import {
   QueryClient,
   QueryClientProvider,
@@ -64,9 +64,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return(
-   <QueryClientProvider client={queryClient}>
-   <Outlet />
-  </QueryClientProvider>
+     <AuthProvider projectId='102180290178172591603'>
+        <QueryClientProvider client={queryClient}>
+        <Outlet />
+        </QueryClientProvider>
+  </AuthProvider>
   )
 }
 

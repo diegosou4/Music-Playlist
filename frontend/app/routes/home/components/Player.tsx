@@ -28,20 +28,53 @@ export default function Player({ recentsMusics, currentMusicId, setCurrentMusicI
 
         const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
+        function setNextMusic()
+        {
+            if (Array.isArray(recentsMusics)) {
+                const currentIndex = recentsMusics.findIndex((track: ITrack) => track.id === currentMusicId);
+                const nextIndex = (currentIndex + 1) % recentsMusics.length;
+                const nextMusic = recentsMusics[nextIndex];
+                setCurrentMusicId(nextMusic.id);
+            }
+        }
+        function setPreviousMusic()
+        {
+            if (Array.isArray(recentsMusics)) {
+                const currentIndex = recentsMusics.findIndex((track: ITrack) => track.id === currentMusicId);
+                const previousIndex = (currentIndex - 1 + recentsMusics.length) % recentsMusics.length;
+                const previousMusic = recentsMusics[previousIndex];
+                setCurrentMusicId(previousMusic.id);
+            }
+        }
+
         React.useEffect(() => {
             if (currentMusicId) {
                 if(Array.isArray(recentsMusics)) {
                 const music = recentsMusics.find((track: ITrack) => track.id === currentMusicId) || null;
                 setCurrentMusic(music);
-                }
+            }
             }
         }, [currentMusicId, recentsMusics]);
 
+        React.useEffect(() => {
+            if (audioRef.current) {
+                audioRef.current.volume = volume / 100;
+            }
+        }, [volume]);
+
+        React.useEffect(() => {
+            if(isPlaying === true && audioRef.current) {
+                audioRef.current.play();
+            }
+        }, [currentMusic]);
 
         React.useEffect(() => {
                 const handleLoadedMetadata = () => {
                     if (audioRef.current) {
                         setDuration(audioRef.current.duration);
+                        if(isPlaying === true) {
+                            audioRef.current.play();
+                        }
                     }
                 };
 
@@ -76,13 +109,6 @@ export default function Player({ recentsMusics, currentMusicId, setCurrentMusicI
                     }
                 };
 
-     React.useEffect(() => {
-        audioRef.current?.addEventListener('timeupdate', handleTimeUpdate);
-        return () => {
-            audioRef.current?.removeEventListener('timeupdate', handleTimeUpdate);
-        };
-    }, []);
-
     
         return (
             <div className="flex flex-col">
@@ -115,13 +141,13 @@ export default function Player({ recentsMusics, currentMusicId, setCurrentMusicI
                         <div className="flex flex-col gap-4 w-11/12 justify-center">
                             <div className="flex flex-row justify-center items-center gap-4 *:cursor-pointer *:text-white text-2xl">
                                 <LiaRandomSolid />
-                                <MdSkipPrevious />
-                                {isPlaying ? (
+                                <MdSkipPrevious onClick={() => {setPreviousMusic();}} />
+                                {isPlaying === true ? (
                                     <MdOutlinePause id="play-pause" onClick={() => {handlePlayPause();}} />
                                 ) : (
                                     <TbPlayerPlayFilled id="play-pause" onClick={() => {handlePlayPause();}} />
                                 )}
-                                <MdSkipNext />
+                                <MdSkipNext onClick={() => {setNextMusic();}} />
                                 <LuRepeat style={{ color: "#9898A6" }} />
                             </div>
                             <div className="flex items-center justify-between ">

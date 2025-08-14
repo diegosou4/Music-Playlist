@@ -76,7 +76,7 @@ export class TrackdbService {
             orderBy: {
                 createdAt: 'desc',
             },
-            take: 10,
+            take: 30,
         });
         return tracks;
     }

@@ -1,7 +1,7 @@
 
 
 
-export function Player() {
+export default function Player() {
     return (
         <div className="flex flex-col">
             <div className="flex flex-row">

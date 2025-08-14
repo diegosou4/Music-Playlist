@@ -25,8 +25,8 @@ export default function Home() {
   
   return (
     <>
-    <section className="w-screen h-screen" style={{ backgroundColor: '#171719' }}>
-      <div className="flex flex-row  h-full ">
+    <section className="w-screen h-screen overflow-y-auto overflow-x-hidden no-scrollbar" style={{ backgroundColor: '#171719' }}>
+      <div className="flex flex-row  h-screen ">
         <Navbar />
 
     { recentsMusics &&

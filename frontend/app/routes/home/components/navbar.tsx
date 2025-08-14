@@ -9,7 +9,7 @@ import { IoPersonOutline } from "react-icons/io5";
 export default function Navbar(){
 
     return(
-      <div className="h-screen w-2/12 flex pt-30 justify-center" style={{ backgroundColor : '#212124'}} >
+      <div className="h-screen w-2/12 flex pt-30 pjustify-center" style={{ backgroundColor : '#212124'}} >
         <div className="flex flex-col w-full">
             <div className="flex flex-col  text-center gap-5 mb-20 *:text-xl w-full  *:cursor-pointer ">
                 <h1 className="text-white">Logo</h1>

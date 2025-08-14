@@ -1,9 +1,11 @@
 
 import { ITrack} from '../../../../types/Tracks';
+// @ts-ignore
 import './carrossel.css'
 import { IoMdSearch } from "react-icons/io";
 import Player  from './player';
 import Slide from './slide';
+import React from 'react';
 
 interface CarrosselProps {
     recentsMusics: ITrack[] | ITrack;
@@ -11,8 +13,10 @@ interface CarrosselProps {
 
 export default function Carrossel({ recentsMusics }: CarrosselProps){
 
-    if(!recentsMusics) return null;
 
+    const [currentMusicId, setCurrentMusicId] = React.useState<string | null>(null);
+    if(!recentsMusics) return null;
+    console.log(currentMusicId);
     return(
         <div className="flex flex-col w-10/12 ml-10">
             <div className="flex flex-row justify-end mt-5 w-11/12 items-center">
@@ -28,11 +32,11 @@ export default function Carrossel({ recentsMusics }: CarrosselProps){
             </div>
             <h1 className="text-white text-3xl">Daily Recommendations</h1>
              {recentsMusics && 
-                     <Slide recentsMusics={recentsMusics} />
+                     <Slide recentsMusics={recentsMusics} setCurrentMusicId={setCurrentMusicId} />
               }   
-               <div className="fixed bottom-0 left-0 w-full bg-[#1F1F22] p-6 shadow-lg ">
-                    <Player />
-                    </div>
+               <div className="fixed bottom-0 left-0 w-full bg-[#1F1F22] p-2 shadow-lg ">
+                    <Player recentsMusics={recentsMusics} currentMusicId={currentMusicId}setCurrentMusicId={setCurrentMusicId}/>
+                </div >
 
                 </div>
     );

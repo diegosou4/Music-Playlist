@@ -8,17 +8,15 @@ import {
 } from "react-router";
 
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
 
 
 const queryClient = new QueryClient()
-
+// @ts-ignore
 import type { Route } from "./+types/root";
+// @ts-ignore
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [

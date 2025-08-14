@@ -1,9 +1,10 @@
+// @ts-ignore
 import type { Route } from "./+types/home";
 import Navbar from "./home/components/navbar";
 import Carrossel from "./home/components/carrossel";
 import useFetch from '../../hooks/useFecth';
-import { ITrack } from '../../types/track';
-import { Player } from "./home/components/Player";
+import { ITrack } from '../../types/Tracks';
+
 
 
 
@@ -16,7 +17,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-   const { data: recentsMusics, isFetching, isLoading } = useFetch<ITrack[] | ITrack>({
+   const { data: recentsMusics } = useFetch<ITrack[] | ITrack>({
     endpoint: 'http://localhost:3000/track/recent-tracks',
     queryKeys: ['recents'],
     method: 'GET',

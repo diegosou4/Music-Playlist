@@ -16,3 +16,16 @@
 .hover\\:animate-marquee:hover {
   animation: marquee 6s linear infinite;
 }
+
+.range-no-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+}
+
+.range-no-thumb::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  border: none;
+}

@@ -1,7 +1,12 @@
 
-import React from "react";``
+import React from "react";
+
+
+// @ts-ignore
 import Slider from "react-slick";
+// @ts-ignore
 import "slick-carousel/slick/slick.css";
+// @ts-ignore
 import "slick-carousel/slick/slick-theme.css";
 import { ITrack} from '../../../../types/Tracks';
 import { IoIosArrowBack } from "react-icons/io";
@@ -10,9 +15,10 @@ import { IoIosArrowForward } from "react-icons/io";
 
 interface SlideProps {
     recentsMusics: ITrack[] | ITrack;
+    setCurrentMusicId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export default function Slide({ recentsMusics }: SlideProps) {
+export default function Slide({ recentsMusics, setCurrentMusicId }: SlideProps) {
 
     if(!recentsMusics) return null;
     let sliderRef = React.useRef<null | any>(null);
@@ -83,6 +89,7 @@ export default function Slide({ recentsMusics }: SlideProps) {
            <div
                 key={music.id}
                 className="p-2 max-w-[150px] flex flex-col items-center"
+                onClick={() => setCurrentMusicId(music.id)}
                 >
                 <div className="w-[150px] h-[150px] mb-4 overflow-hidden rounded-xl shadow-lg transform transition hover:scale-105">
                     <img

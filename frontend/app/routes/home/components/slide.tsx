@@ -32,35 +32,47 @@ export default function Slide({ recentsMusics, setCurrentMusicId }: SlideProps) 
             slidesToShow: 9,
             slidesToScroll: 2,
             responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                slidesToShow: 5,
-                slidesToScroll: 3,
+                {
+                    breakpoint: 1400,
+                    settings: {
+                        slidesToShow: 7,
+                        slidesToScroll: 2,
+                        infinite: false,
+                    },
                 },
-            },
-            {
-                breakpoint: 800,
-                settings: {
-                slidesToShow: 3,
-                slidesToScroll: 2,
+                {
+                    breakpoint: 1280,
+                    settings: {
+                        slidesToShow: 5,
+                        slidesToScroll: 2,
+                        infinite: false,
+                    },
                 },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        infinite: false,
+                    },
                 },
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
+                {
+                    breakpoint: 800,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        infinite: false,
+                    },
                 },
-            },
-            ]
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        infinite: false,
+                    },
+                },
+            ],
   };
 
         const next = () => {

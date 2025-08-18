@@ -30,12 +30,12 @@ export default function Carrossel({ recentsMusics }: CarrosselProps){
                     <IoMdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 </div>
             </div>
-            <h1 className="text-white text-3xl">Daily Recommendations</h1>
+            <h1 className="text-white md:text-3xl text-xl mt-2">Daily Recommendations</h1>
              {recentsMusics && 
                      <Slide recentsMusics={recentsMusics} setCurrentMusicId={setCurrentMusicId} />
               }   
                <div className="fixed bottom-0 left-0 w-full bg-[#1F1F22] p-2 shadow-lg ">
-                    <Player recentsMusics={recentsMusics} currentMusicId={currentMusicId}setCurrentMusicId={setCurrentMusicId}/>
+                    <Player recentsMusics={recentsMusics} currentMusicId={currentMusicId} setCurrentMusicId={setCurrentMusicId}/>
                 </div >
 
                 </div>

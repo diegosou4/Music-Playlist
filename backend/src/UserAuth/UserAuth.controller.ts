@@ -1,20 +1,23 @@
-import { Controller} from '@nestjs/common';
+import { Controller , UseGuards } from '@nestjs/common';
 import { UserAuthService } from './UserAuth.service';
 import { Get, Post, Body } from '@nestjs/common';
 import { UserAuth } from 'generated/prisma';
 import { CreateUserAuthDto } from 'src/dto/create-userAuth.dto';
+import { AuthGuard, Session, UserSession } from '@thallesp/nestjs-better-auth';
 
 
 
 
 
 @Controller('user-auth')
+@UseGuards(AuthGuard)
 export class UserAuthController {
   
   constructor(private userAuthService: UserAuthService) {}
 
    @Get('users')
-    async getUsers():  Promise<UserAuth[]> {
+    async getUsers(@Session() session: UserSession):  Promise<UserAuth[]> {
+      console.log('Session:', session);
         return this.userAuthService.getUsers();
     }
   

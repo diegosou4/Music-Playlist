@@ -30,6 +30,7 @@
     "@nestjs/swagger": "^11.2.0",
     "@prisma/client": "^6.11.1",
     "@prisma/extension-optimize": "^2.0.0",
+    "@thallesp/nestjs-better-auth": "^1.0.2",
     "class-validator": "^0.14.2",
     "mo": "^1.7.3",
     "multer": "^2.0.2",

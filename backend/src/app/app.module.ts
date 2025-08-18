@@ -10,10 +10,11 @@ import { PrismaModule } from '../database/prisma.module';
 import { MediaModule } from 'src/media/media.module';
 import { StorageModule } from 'src/storage/storage.module';
 import { AppService } from './app.service';
-
+import { AuthModule } from '@thallesp/nestjs-better-auth';
+import { auth } from "./auth"; // Your Better Auth instance
 
 @Module({
-  imports: [UserAuthModule, PlaylistModule, TrackModule, AlbumModule, GenreModule, ArtistModule, PrismaModule, MediaModule, StorageModule],
+  imports: [UserAuthModule, PlaylistModule, TrackModule, AlbumModule, GenreModule, ArtistModule, PrismaModule, MediaModule, StorageModule, AuthModule.forRoot(auth)],
   controllers: [AppController],
   providers: [AppService],
 })

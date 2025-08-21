@@ -70,4 +70,25 @@ export class UserAuthService {
         return user;
     }
 
+    async updateRefreshToken(userId: string, refreshToken: string): Promise<void> {
+        const hashedToken = await bcrypt.hash(refreshToken, 10);
+        await this.prisma.userAuth.update({
+            where: { id: userId },
+            data: { refreshToken: hashedToken },
+        });
+    }
+
+
+     async validateRefreshToken(userId: string, refreshToken: string): Promise<boolean> {
+        const user = await this.prisma.userAuth.findUnique({
+            where: { id: userId },
+        });
+
+        if (!user || !user.refreshToken) {
+            return false;
+        }
+
+        const isValid = await bcrypt.compare(refreshToken, user.refreshToken);
+        return isValid;
+    }
 }

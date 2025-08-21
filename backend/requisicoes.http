@@ -96,3 +96,8 @@ Content-Type: application/json
   "duration": 240,
   "isPublic" : true
 }
+
+
+###
+GET http://localhost:3000/track/all-tracks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWVsOHl1M2MwMDA4NjVlY3UxbW4ydGV2IiwidXNlcm5hbWUiOiJkaWVnb3NvdTQiLCJpYXQiOjE3NTU3ODUzMTcsImV4cCI6MTc1NTc4NjIxN30.gUJVIAyGupm_YfL7Tnk66X5iZIlsOZ2MmAnJQp8xT7Q

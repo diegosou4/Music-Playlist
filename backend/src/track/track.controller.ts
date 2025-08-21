@@ -17,7 +17,6 @@ export class TrackController {
     @Post('create-track')
     @UseInterceptors(FileInterceptor('file'))
     async createTrack(@Body() trackData: TrackDto, @UploadedFile() file: Express.Multer.File): Promise<Track> {
-        console.log('bato no controller');
         return this.TrackService.createTrack(trackData, file);
     }
 

@@ -112,6 +112,7 @@ model UserAuth {
   id        String    @id @default(cuid())
   username  String    @unique
   password  String
+  refreshToken String?
   email     String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

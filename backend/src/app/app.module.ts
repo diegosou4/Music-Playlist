@@ -11,10 +11,20 @@ import { MediaModule } from 'src/media/media.module';
 import { StorageModule } from 'src/storage/storage.module';
 import { AppService } from './app.service';
 import { AuthModule } from 'src/auth/auth.module';
+import { JwtRefreshMiddleware } from 'src/auth/auth.middleware';
+import { MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 
 @Module({
   imports: [AuthModule,UserAuthModule, PlaylistModule, TrackModule, AlbumModule, GenreModule, ArtistModule, PrismaModule, MediaModule, StorageModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+
+
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(JwtRefreshMiddleware)
+      .forRoutes({ path: '/track/*', method: RequestMethod.ALL }); 
+  }
+}

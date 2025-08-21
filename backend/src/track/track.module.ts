@@ -6,10 +6,10 @@ import { GenreModule } from 'src/genre/genre.module';
 import { ArtistModule } from 'src/artist/artist.module';
 import { MediaModule } from 'src/media/media.module';
 import { TrackdbService } from './trackdb.service';
-
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [PrismaModule, GenreModule, ArtistModule, MediaModule],
+  imports: [JwtModule,PrismaModule, GenreModule, ArtistModule, MediaModule],
   controllers: [TrackController],
   providers: [TrackService, TrackdbService],
   exports: [TrackService, TrackdbService],

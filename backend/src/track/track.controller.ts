@@ -1,11 +1,13 @@
-import {  Controller, Get, Param , Post, Body} from '@nestjs/common';
+import {  Controller, Get, Param , Post, Body, UseGuards} from '@nestjs/common';
 import { Track } from 'generated/prisma';
 import { TrackService}  from './track.service';
 import { TrackDto } from '../dto/track.dto'; 
 import { UploadedFile } from '@nestjs/common';
 import { UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard} from '../auth/auth.guard'
 
+@UseGuards(AuthGuard)
 @Controller('track')
 export class TrackController {
     constructor(

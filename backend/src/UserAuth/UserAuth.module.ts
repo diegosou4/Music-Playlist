@@ -4,9 +4,15 @@ import { UserAuthService } from './UserAuth.service';
 import { PrismaModule } from 'src/database/prisma.module';
 
 
+
+
+
+
 @Module({
   imports: [PrismaModule],
   controllers: [UserAuthController],
   providers: [ UserAuthService],
+  exports: [UserAuthService]
 })
 export class UserAuthModule {}
+

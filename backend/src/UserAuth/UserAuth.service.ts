@@ -2,7 +2,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { UserAuth } from 'generated/prisma';
-import { CreateUserAuthDto } from 'src/dto/create-userAuth.dto';
+import { RegisterResponseDTO } from 'src/dto/auth.dto';
+import * as bcrypt from 'bcrypt';
+
 
 @Injectable()
 export class UserAuthService {
@@ -17,18 +19,55 @@ export class UserAuthService {
         return users;
     }
 
-    async createUser(userAuthData: CreateUserAuthDto): Promise<UserAuth> {
-        if (!this.prisma.userAuth) {
-            throw new Error('UserAuth model is not defined on PrismaService');
-        }
-        const userAuth = await this.prisma.userAuth.create({
-            data: {
-            userId: userAuthData.userId,
-            password: userAuthData.password, 
-            email: userAuthData.email
-        },
-      });
-        return userAuth;
+    async createUser(userAuthData: RegisterResponseDTO): Promise<UserAuth> {
+                if (!this.prisma.userAuth) {
+                    throw new Error('UserAuth model is not defined on PrismaService');
+                }
+
+                const existingEmail = await this.findByEmail(userAuthData.email);
+                if (existingEmail) throw new Error('Email already exists');
+
+                const existingUsername = await this.findByUsername(userAuthData.username);
+                if (existingUsername) throw new Error('Username already exists');
+
+                const hashPass = await bcrypt.hash(userAuthData.password, 10);
+
+                try {
+                    const user = await this.prisma.user.create({
+                        data: {
+                            name: userAuthData.name,
+                            lastName: userAuthData.lastName,
+                        },
+                    });
+                    const userAuth = await this.prisma.userAuth.create({
+                        data: {
+                            username: userAuthData.username,
+                            password: hashPass,
+                            email: userAuthData.email,
+                            userId: user.id,
+                        },
+                    });
+
+                    return userAuth;
+                } catch (error) {
+                    console.error('Error creating user:', error);
+                    throw new Error('Error creating user');
+                }
+            }
+
+
+    async findByEmail(email: string): Promise<UserAuth | null> {
+        const user = await this.prisma.userAuth.findUnique({
+            where: { email: email },
+        });
+        return user;
+    }
+
+    async findByUsername(username: string): Promise<UserAuth | null> {
+        const user = await this.prisma.userAuth.findUnique({
+            where: { username: username },
+        });
+        return user;
     }
 
 }

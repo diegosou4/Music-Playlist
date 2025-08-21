@@ -13,9 +13,10 @@ import { AppService } from './app.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { JwtRefreshMiddleware } from 'src/auth/auth.middleware';
 import { MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { GoogleModule } from 'src/google-auth/google.module';
 
 @Module({
-  imports: [AuthModule,UserAuthModule, PlaylistModule, TrackModule, AlbumModule, GenreModule, ArtistModule, PrismaModule, MediaModule, StorageModule],
+  imports: [AuthModule,GoogleModule,UserAuthModule, PlaylistModule, TrackModule, AlbumModule, GenreModule, ArtistModule, PrismaModule, MediaModule, StorageModule],
   controllers: [AppController],
   providers: [AppService],
 })
